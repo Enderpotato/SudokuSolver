@@ -1,0 +1,41 @@
+canvas {
+  border: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+#ui {
+  padding-left: 3%;
+  padding-right: 3%;
+  background-color: antiquewhite;
+  width: fit-content;
+}
+
+#number-selection {
+  display: grid;
+  gap: 20px;
+  margin-top: 30px;
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
+}
+
+#number-selection > * {
+  border: black solid 2px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  border-radius: 30%;
+  cursor: pointer;
+}
+
+#solve-btn {
+  width: 80%;
+  background-color: white;
+  border-radius: 40px;
+  margin-top: 20px;
+  cursor: pointer;
+}
