@@ -1,7 +1,7 @@
 # SudokuSolver
 
 ## Description
-A simple web page to solve sudoku boards. Coded using HTML, CSS and JS. 
+A simple web page to solve sudoku boards. Coded using HTML, CSS and JS. Rendered using the p5js library. 
 This solver uses wave function collapse algorithm to solve the board.
 
 ### Algorithm
