@@ -37,6 +37,7 @@ numberButtons.forEach((div) => {
 
 function setup() {
   const canvas = createCanvas(500, 500);
+
   canvas.parent("board");
 }
 
@@ -54,34 +55,7 @@ function draw() {
   rect(0, 0, BoardLen);
 
   //draw grid
-  SudokuBoard.forEach((Cell) => {
-    // noFill();
-    fill(Cell.color);
-    strokeWeight(2);
-    stroke(0);
-    rect(Cell.col * CellLen, Cell.row * CellLen, CellLen);
-
-    noStroke();
-    fill(0);
-    textAlign(CENTER);
-    textSize(20);
-    text(
-      Cell.value,
-      Cell.col * CellLen + CellLen / 2,
-      Cell.row * CellLen + CellLen / 2 + 7
-    );
-
-    if (Cell.error) {
-      strokeWeight(3);
-      stroke(255, 0, 0);
-      noFill();
-      circle(
-        Cell.col * CellLen + CellLen / 2,
-        Cell.row * CellLen + CellLen / 2,
-        CellLen - 10
-      );
-    }
-  });
+  SudokuBoard.forEach((Cell) => drawCell(Cell, CellLen));
 
   stroke(0);
   strokeWeight(5);
@@ -93,15 +67,39 @@ function draw() {
   pop();
   let selectedRow = Math.floor((mouseY - LeftPadding) / CellLen);
   let selectedCol = Math.floor((mouseX - LeftPadding) / CellLen);
-  if (currentCell) currentCell.changeState(0);
-  if (highlightedCells) highlightedCells.forEach((Cell) => Cell.changeState(0));
-  if (
-    !(selectedRow < 0 || selectedRow > 8 || selectedCol < 0 || selectedCol > 8)
-  ) {
-    currentCell = SudokuBoard[selectedRow * 9 + selectedCol];
-    highlightedCells = highlightRelevant(selectedRow, selectedCol);
-    currentCell.changeState(2);
-  } else currentCell = undefined;
+
+  let mouseOutOfBounds =
+    mouseX < LeftPadding ||
+    mouseX > LeftPadding + BoardLen ||
+    mouseY < TopPadding ||
+    mouseY > TopPadding + BoardLen;
+
+  if (!mouseOutOfBounds && !isSolving) {
+    if (currentCell) currentCell.changeState(0);
+    if (highlightedCells)
+      highlightedCells.forEach((Cell) => Cell.changeState(0));
+    if (
+      !(
+        selectedRow < 0 ||
+        selectedRow > 8 ||
+        selectedCol < 0 ||
+        selectedCol > 8
+      )
+    ) {
+      currentCell = SudokuBoard[selectedRow * 9 + selectedCol];
+      highlightedCells = highlightRelevant(selectedRow, selectedCol);
+      currentCell.changeState(2);
+    } else currentCell = undefined;
+  }
+
+  if (mouseOutOfBounds) {
+    if (currentCell) currentCell.changeState(0);
+    if (highlightedCells) {
+      highlightedCells.forEach((Cell) => Cell.changeState(0));
+      highlightedCells = [];
+    }
+    currentCell = undefined;
+  }
 
   if (mouseIsPressed && currentCell) {
     if (selectedNumber != null) {

@@ -28,6 +28,20 @@ class SudokuCell {
     this.selectedState = stateValue;
     this.getColor();
   }
+
+  setSelectedBySolver(state) {
+    switch (state) {
+      case 0:
+        this.color = "#00FF0064";
+        break;
+      case 1:
+        this.color = "#FF000064";
+        break;
+      default:
+        this.color = "#00000000";
+        break;
+    }
+  }
 }
 
 function highlightRelevant(row, col) {
@@ -94,4 +108,32 @@ function printBoard() {
   let board = printStr.join("\n");
   console.log(board);
   return board;
+}
+
+function drawCell(cell, cellLen) {
+  fill(cell.color);
+  strokeWeight(2);
+  stroke(0);
+  rect(cell.col * cellLen, cell.row * cellLen, cellLen);
+
+  noStroke();
+  fill(0);
+  textAlign(CENTER);
+  textSize(20);
+  text(
+    cell.value,
+    cell.col * cellLen + cellLen / 2,
+    cell.row * cellLen + cellLen / 2 + 7
+  );
+
+  if (cell.error) {
+    strokeWeight(3);
+    stroke(255, 0, 0);
+    noFill();
+    circle(
+      cell.col * cellLen + cellLen / 2,
+      cell.row * cellLen + cellLen / 2,
+      cellLen - 10
+    );
+  }
 }
