@@ -39,3 +39,8 @@ main {
   margin-top: 20px;
   cursor: pointer;
 }
+
+#speed {
+  margin-left: auto;
+  margin-right: auto;
+}

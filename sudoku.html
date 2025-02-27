@@ -28,7 +28,19 @@
         <div style="display: flex; justify-content: center">
           <button id="solve-btn" onclick="solveStart()">Solve</button>
         </div>
+        <input
+          type="range"
+          id="speed-slider"
+          min="10"
+          max="1000"
+          step="10"
+          value="100"
+          onchange="onSpeedChange()"
+          onmousedown="onSpeedChange()"
+        />
+        <label for="speed" id="speed-label">Speed: 100ms/step</label>
         <h3 id="loading" style="display: none">Solving...</h3>
+        <h3 id="no-sol" style="display: none">No solution</h3>
       </div>
     </main>
     <script src="Cell.js"></script>

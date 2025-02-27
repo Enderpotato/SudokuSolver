@@ -103,12 +103,23 @@ function* solveBoardG() {
 }
 
 const loadingElt = document.getElementById("loading");
+const noSolElt = document.getElementById("no-sol");
+const speedSlider = document.getElementById("speed-slider");
+const speedLabel = document.getElementById("speed-label");
+
+function onSpeedChange() {
+  value = speedSlider.value;
+  solveDelay = value;
+  speedLabel.innerText = `Speed: ${solveDelay}ms/step`;
+}
+
 let solverIterator,
   isSolving = false;
 
 function solveStart() {
   solverIterator = solveBoardG();
   loadingElt.style.display = "block";
+  noSolElt.style.display = "none";
   isSolving = true;
   solveStep();
 }
@@ -117,13 +128,14 @@ function solveStep() {
   let result = solverIterator.next();
   if (result.done) {
     isSolving = false;
+    loadingElt.style.display = "none";
     if (result.value) {
       console.log("SOLVED!");
-      loadingElt.style.display = "none";
     } else {
       console.log("Board cannot be solved");
+      noSolElt.style.display = "block";
     }
   } else {
-    setTimeout(solveStep, 100); // Adjust the delay as needed
+    setTimeout(solveStep, speedSlider.value); // Adjust the delay as needed
   }
 }
